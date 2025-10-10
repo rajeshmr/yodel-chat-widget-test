@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yodel Chat Widget Configuration</title>
+  <style>
+    :root {
+      --primary-color: #4a86e8;
+      --primary-dark: #3a76d8;
+      --light-gray: #f5f5f5;
+      --dark-gray: #333;
+      --border-gray: #ddd;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      color: var(--dark-gray);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 1.1em;
+      margin-top: 0;
+    }
+    
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .config-panel {
+      flex: 1;
+      min-width: 400px;
+      background-color: var(--light-gray);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .preview-panel {
+      flex: 1;
+      min-width: 400px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    
+    input[type="text"],
+    input[type="color"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border-gray);
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    input[type="color"] {
+      height: 40px;
+    }
+    
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    
+    .color-input-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .color-text {
+      flex: 1;
+    }
+    
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .settings-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .reload-button {
+      background-color: #28a745;
+    }
+    
+    .reload-button:hover {
+      background-color: #218838;
+    }
+    
+    .reset-button {
+      background-color: #dc3545;
+    }
+    
+    .reset-button:hover {
+      background-color: #c82333;
+    }
+    
+    .current-config {
+      background-color: var(--light-gray);
+      padding: 15px;
+      border-radius: 4px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+    
+    .config-section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-gray);
+    }
+    
+    .config-section h3 {
+      margin-top: 0;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 20px;
+      color: #666;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Yodel Chat Widget Configuration</h1>
+    <p class="subtitle">Customize and preview your chat widget in real-time</p>
+  </header>
+  
+  <main>
+    <section class="config-panel">
+      <form id="widget-config-form">
+        <div class="config-section">
+          <h3>Authentication</h3>
+          <div class="form-group">
+            <label for="shared-id">Shared ID:</label>
+            <input type="text" id="shared-id" name="shared_id" value="8bbb41c037e611f0841e8363adbaf05a" required>
+          </div>
+          <div class="form-group">
+            <label for="auth-token">Authentication Token:</label>
+            <input type="text" id="auth-token" name="authentication_token" value="ragflow-Q3ZjI5MDk5MzQ5ZDExZjBhZjM3Njc4OW" required>
+          </div>
+          <div class="form-group">
+            <label for="agent-mode">
+              <input type="checkbox" id="agent-mode" name="agent"> 
+              Use Agent API endpoint
+            </label>
+          </div>
+        </div>
+        
+        <div class="config-section">
+          <h3>Header Configuration</h3>
+          <div class="form-group">
+            <label for="chat-title">Chat Title:</label>
+            <input type="text" id="chat-title" name="chat_title" value="Yodel Assistant">
+          </div>
+          <div class="form-group">
+            <label for="header-color">Header Color:</label>
+            <div class="color-input-group">
+              <input type="color" id="header-color" name="header_color" value="#7A6F9B">
+              <input type="text" class="color-text" id="header-color-text" value="#7A6F9B">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="chat-title-color">Chat Title Color:</label>
+            <div class="color-input-group">
+              <input type="color" id="chat-title-color" name="chat_title_color" value="#ffffff">
+              <input type="text" class="color-text" id="chat-title-color-text" value="#ffffff">
+            </div>
+          </div>
+        </div>
+        
+        <div class="config-section">
+          <h3>Assistant Message Style</h3>
+          <div class="form-group">
+            <label for="assistant-bubble-color">Assistant Bubble Color:</label>
+            <div class="color-input-group">
+              <input type="color" id="assistant-bubble-color" name="assistant_chat_bubble_color" value="#D4CDF4">
+              <input type="text" class="color-text" id="assistant-bubble-color-text" value="#D4CDF4">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="assistant-font-color">Assistant Font Color:</label>
+            <div class="color-input-group">
+              <input type="color" id="assistant-font-color" name="assistant_chat_font_color" value="#000000">
+              <input type="text" class="color-text" id="assistant-font-color-text" value="#000000">
+            </div>
+          </div>
+        </div>
+        
+        <div class="config-section">
+          <h3>User Message Style</h3>
+          <div class="form-group">
+            <label for="profile-bubble-color">User Bubble Color:</label>
+            <div class="color-input-group">
+              <input type="color" id="profile-bubble-color" name="profile_chat_bubble_color" value="#8B85C1">
+              <input type="text" class="color-text" id="profile-bubble-color-text" value="#8B85C1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="profile-font-color">User Font Color:</label>
+            <div class="color-input-group">
+              <input type="color" id="profile-font-color" name="profile_chat_font_color" value="#ffffff">
+              <input type="text" class="color-text" id="profile-font-color-text" value="#ffffff">
+            </div>
+          </div>
+        </div>
+        
+        <div class="config-section">
+          <h3>Button & Avatar Settings</h3>
+          <div class="form-group">
+            <label for="widget-button-color">Widget Button Color:</label>
+            <div class="color-input-group">
+              <input type="color" id="widget-button-color" name="widget_button_color" value="#685155">
+              <input type="text" class="color-text" id="widget-button-color-text" value="#685155">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="show-avatar">
+              <input type="checkbox" id="show-avatar" name="show_avatar" checked> 
+              Show Avatars
+            </label>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <h3>Privacy Policy Settings</h3>
+          <div class="form-group">
+            <label for="privacy-enabled">
+              <input type="checkbox" id="privacy-enabled" name="privacy_enabled" checked> 
+              Enable Privacy Policy
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="privacy-prefix">Text Prefix:</label>
+            <input type="text" id="privacy-prefix" name="privacy_prefix" value="By chatting, you agree to our">
+          </div>
+          <div class="form-group">
+            <label for="privacy-link-text">Link Text:</label>
+            <input type="text" id="privacy-link-text" name="privacy_link_text" value="privacy policy">
+          </div>
+          <div class="form-group">
+            <label for="privacy-suffix">Text Suffix:</label>
+            <input type="text" id="privacy-suffix" name="privacy_suffix" value=".">
+          </div>
+          <div class="form-group">
+            <label for="privacy-title">Popup Title:</label>
+            <input type="text" id="privacy-title" name="privacy_title" value="Privacy Policy">
+          </div>
+          <div class="form-group">
+            <label for="privacy-content-type">Content Type:</label>
+            <select id="privacy-content-type" name="privacy_content_type">
+              <option value="markdown" selected>Markdown</option>
+              <option value="url">URL</option>
+            </select>
+          </div>
+          <div class="form-group" id="privacy-markdown-container">
+            <label for="privacy-markdown">Markdown Content:</label>
+            <textarea id="privacy-markdown" name="privacy_markdown" rows="5" style="width: 100%;"># Privacy Policy
+
+## Introduction
+
+This privacy policy explains how we collect and use your data when you interact with our chat widget.
+
+## Data We Collect
+
+- **Chat Messages**: The content you send in the chat
+- **Session Data**: Technical information to maintain your chat session
+
+## How We Use Your Data
+
+- To provide chat assistance
+- To improve our services
+- To analyze usage patterns
+
+For questions, contact privacy@example.com.</textarea>
+          </div>
+          <div class="form-group" id="privacy-url-container" style="display: none;">
+            <label for="privacy-url">URL:</label>
+            <input type="text" id="privacy-url" name="privacy_url" value="https://www.yodelpass.com/privacy-policy">
+          </div>
+        </div>
+        
+        <div class="settings-buttons">
+          <button type="button" id="apply-config" class="reload-button">Apply Changes</button>
+          <button type="button" id="reset-config" class="reset-button">Reset to Default</button>
+        </div>
+      </form>
+    </section>
+    
+    <section class="preview-panel">
+      <h3>Configuration Preview</h3>
+      <p>You'll see the chat widget in the bottom right corner. Click it to test your settings!</p>
+      <div class="current-config" id="current-config"></div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>Yodel Chat Widget Configurator | Made with ❤️ by Yodel</p>
+  </footer>
+
+  <!-- Yodel Chat Widget Integration -->
+  <div id="widget-container"></div>
+  
+  <!-- This comment is important: The script tag below is used as a template for the dev.js script to update the widget path -->
+  <!-- Widget Script Template (Do Not Remove) -->
+  <script id="widget-script-template" style="display:none">
+  (function(w,d,s,u){
+    w.yodelChatSettings = { 
+      shared_id: "8bbb41c037e611f0841e8363adbaf05a", 
+      authentication_token: "ragflow-Q3ZjI5MDk5MzQ5ZDExZjBhZjM3Njc4OW"
+    };
+    var js = d.createElement(s); 
+    js.src = "./dist/yodel-chat-widget.b771f6f76110b5c21e13.1758102956562.js"; 
+    js.async = true;
+    d.getElementsByTagName('head')[0].appendChild(js);
+  })(window, document, 'script');
+  </script>
+
+  <script>
+  // Define widget script path in one place
+  const WIDGET_SCRIPT_PATH = "./dist/yodel-chat-widget-latest.js";
+  
+  // Update the template script source
+  document.addEventListener('DOMContentLoaded', () => {
+    const templateScript = document.getElementById('widget-script-template');
+    if (templateScript) {
+      let content = templateScript.textContent;
+      content = content.replace(/js\.src = ".*?";/, `js.src = "${WIDGET_SCRIPT_PATH}";`);
+      templateScript.textContent = content;
+    }
+  });
+  
+  (function(w, d, s) {
+    // Default configuration
+    const defaultConfig = { 
+      shared_id: "e6095c5e9d4311f09e25a9b8b1a79c0c", 
+      authentication_token: "ragflow-Q3ZjI5MDk5MzQ5ZDExZjBhZjM3Njc4OW",
+      header_color: "#7A6F9B",
+      chat_title: "Yodel Assistant",
+      assistant_chat_bubble_color: "#D4CDF4",
+      assistant_chat_font_color: "#000000",
+      profile_chat_bubble_color: "#8B85C1",
+      profile_chat_font_color: "#ffffff",
+      chat_title_color: "#ffffff",
+      widget_button_color: "#685155",
+      assistant_avatar_url: 'https://yodel-chat-widget.s3.us-east-1.amazonaws.com/assets/park-ranger.png',
+      user_avatar_url: 'https://yodel-chat-widget.s3.us-east-1.amazonaws.com/assets/user.png',
+      profile_icon_url: 'https://yodel-chat-widget.s3.us-east-1.amazonaws.com/assets/user.png',
+      show_avatar: true,
+      agent: false,
+      // Privacy policy configuration
+      privacy_policy: {
+        enabled: true,
+        text_prefix: "By chatting, you agree to our",
+        link_text: "privacy policy",
+        text_suffix: ".",
+        content_type: "url",
+        page_url: "https://www.yodelpass.com/privacy-policy",
+        popup_title: "Privacy Policy"
+      }
+    };
+    
+    // Initialize with default config
+    let currentConfig = {...defaultConfig};
+    w.yodelChatSettings = currentConfig;
+  
+    // Initialize the form with current config values
+    function initFormValues() {
+      const form = document.getElementById('widget-config-form');
+      
+      // Set text and color input values for main config
+      for (const [key, value] of Object.entries(currentConfig)) {
+        if (key !== 'privacy_policy') { // Handle privacy policy separately
+          const input = form.elements[key];
+          if (input) {
+            if (input.type === 'checkbox') {
+              input.checked = value;
+            } else {
+              input.value = value;
+              
+              // Also update associated text inputs for color pickers
+              const textInput = document.getElementById(`${input.id}-text`);
+              if (textInput) {
+                textInput.value = value;
+              }
+            }
+          }
+        }
+      }
+      
+      // Initialize privacy policy form elements if they exist
+      if (currentConfig.privacy_policy) {
+        const pp = currentConfig.privacy_policy;
+        
+        // Set checkbox state
+        document.getElementById('privacy-enabled').checked = pp.enabled;
+        
+        // Set text fields
+        document.getElementById('privacy-prefix').value = pp.text_prefix || '';
+        document.getElementById('privacy-link-text').value = pp.link_text || '';
+        document.getElementById('privacy-suffix').value = pp.text_suffix || '';
+        document.getElementById('privacy-title').value = pp.popup_title || 'Privacy Policy';
+        
+        // Set content type and show/hide appropriate containers
+        const contentTypeSelect = document.getElementById('privacy-content-type');
+        contentTypeSelect.value = pp.content_type || 'markdown';
+        togglePrivacyContentType(pp.content_type || 'markdown');
+        
+        // Set content based on type
+        if (pp.content_type === 'markdown') {
+          document.getElementById('privacy-markdown').value = pp.markdown_content || '';
+        } else {
+          document.getElementById('privacy-url').value = pp.page_url || '';
+        }
+      }
+      
+      // Display current config as JSON
+      updateConfigDisplay();
+    }
+    
+    // Toggle between markdown and URL input fields based on selected content type
+    function togglePrivacyContentType(contentType) {
+      const markdownContainer = document.getElementById('privacy-markdown-container');
+      const urlContainer = document.getElementById('privacy-url-container');
+      
+      if (contentType === 'markdown') {
+        markdownContainer.style.display = 'block';
+        urlContainer.style.display = 'none';
+      } else {
+        markdownContainer.style.display = 'none';
+        urlContainer.style.display = 'block';
+      }
+    }
+  
+    // Update the config display in the preview panel
+    function updateConfigDisplay() {
+      const configDisplay = document.getElementById('current-config');
+      configDisplay.textContent = JSON.stringify(currentConfig, null, 2);
+    }
+    
+    // Load the widget with current configuration
+    function loadWidget() {
+      // First, remove any existing widget script
+      const existingWidget = document.querySelector('script[data-widget-id="yodel-chat-widget"]');
+      if (existingWidget) {
+        existingWidget.remove();
+      }
+      
+      // Remove any existing widget elements
+      const existingWidgetElements = document.querySelectorAll('.yodel-chat-widget');
+      existingWidgetElements.forEach(el => el.remove());
+      
+      // Clear any localStorage items related to the widget to ensure a fresh start
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('yodel_') || key.includes('yodel-chat'))) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      
+      // Set the current config as the global settings
+      w.yodelChatSettings = {...currentConfig};
+      
+      // Create a small delay to ensure DOM is ready before loading the script
+      setTimeout(() => {
+        // Create and load the script
+        const script = document.createElement('script');
+        // Use the shared script path variable
+        script.src = WIDGET_SCRIPT_PATH;
+        script.async = true;
+        script.dataset.widgetId = 'yodel-chat-widget';
+        document.head.appendChild(script);
+        
+        console.log('Widget reloaded with config:', currentConfig);
+      }, 100);
+    }
+    
+    // Apply the form values to the config
+    function applyFormValues() {
+      const form = document.getElementById('widget-config-form');
+      const newConfig = {...currentConfig};
+      
+      // Update config with form values
+      for (const [key, value] of Object.entries(currentConfig)) {
+        if (key !== 'privacy_policy') { // Handle privacy policy separately
+          const input = form.elements[key];
+          if (input) {
+            if (input.type === 'checkbox') {
+              newConfig[key] = input.checked;
+            } else {
+              newConfig[key] = input.value;
+            }
+          }
+        }
+      }
+      
+      // Handle privacy policy settings
+      const privacyEnabled = document.getElementById('privacy-enabled').checked;
+      const contentType = document.getElementById('privacy-content-type').value;
+      
+      // Create privacy policy object
+      newConfig.privacy_policy = {
+        enabled: privacyEnabled,
+        text_prefix: document.getElementById('privacy-prefix').value,
+        link_text: document.getElementById('privacy-link-text').value,
+        text_suffix: document.getElementById('privacy-suffix').value,
+        popup_title: document.getElementById('privacy-title').value,
+        content_type: contentType
+      };
+      
+      // Add content based on type
+      if (contentType === 'markdown') {
+        newConfig.privacy_policy.markdown_content = document.getElementById('privacy-markdown').value;
+      } else {
+        newConfig.privacy_policy.page_url = document.getElementById('privacy-url').value;
+      }
+      
+      // Update current config
+      currentConfig = newConfig;
+      updateConfigDisplay();
+      
+      // Reload the widget
+      loadWidget();
+    }
+    
+    // Reset form to default values
+    function resetToDefault() {
+      currentConfig = {...defaultConfig};
+      initFormValues();
+      loadWidget();
+    }
+    
+    // Event listeners for color inputs
+    function setupColorInputs() {
+      const colorInputs = document.querySelectorAll('input[type="color"]');
+      colorInputs.forEach(colorInput => {
+        const textInput = document.getElementById(`${colorInput.id}-text`);
+        
+        // Update text input when color changes
+        colorInput.addEventListener('input', () => {
+          textInput.value = colorInput.value.toUpperCase();
+        });
+        
+        // Update color input when text changes
+        textInput.addEventListener('input', () => {
+          // Check if valid hex color
+          if (/^#[0-9A-F]{6}$/i.test(textInput.value)) {
+            colorInput.value = textInput.value;
+          }
+        });
+        
+        // Ensure proper format on blur
+        textInput.addEventListener('blur', () => {
+          // If not a valid hex color, reset to the color input's value
+          if (!/^#[0-9A-F]{6}$/i.test(textInput.value)) {
+            textInput.value = colorInput.value.toUpperCase();
+          }
+        });
+      });
+    }
+    
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize form with current config
+      initFormValues();
+      
+      // Set up color input syncing
+      setupColorInputs();
+      
+      // Set up privacy policy content type toggle
+      const contentTypeSelect = document.getElementById('privacy-content-type');
+      contentTypeSelect.addEventListener('change', (e) => {
+        togglePrivacyContentType(e.target.value);
+      });
+      
+      // Add event listeners for buttons
+      document.getElementById('apply-config').addEventListener('click', applyFormValues);
+      document.getElementById('reset-config').addEventListener('click', resetToDefault);
+      
+      // Load the widget initially
+      loadWidget();
+    });
+})(window, document, 'script');
+  </script>
+</body>
+</html>

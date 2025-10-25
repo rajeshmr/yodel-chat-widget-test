@@ -1286,22 +1286,25 @@
         // Update embed code preview
         updateEmbedCode();
         
-        // Show success or warning message
+        // Save to sessionStorage
+        sessionStorage.setItem('yodelWidgetConfig', JSON.stringify(validation.config));
+        
+        // Show success or warning message and reload
         if (validation.warnings.length > 0) {
           const warningMsg = ERROR_MESSAGES.PARTIAL_IMPORT + '<br><small>' + 
                             validation.warnings.join('<br>') + '</small>';
           showImportAlert(warningMsg, 'warning');
           
-          // Close modal after delay
+          // Reload page after delay to apply settings to widget
           setTimeout(() => {
-            closeImportModal();
-          }, 4000);
+            location.reload();
+          }, 3000);
         } else {
-          showImportAlert('✅ Settings imported successfully!', 'success');
+          showImportAlert('✅ Settings imported successfully! Reloading widget...', 'success');
           
-          // Close modal after short delay
+          // Reload page after short delay to apply settings to widget
           setTimeout(() => {
-            closeImportModal();
+            location.reload();
           }, 1500);
         }
 
